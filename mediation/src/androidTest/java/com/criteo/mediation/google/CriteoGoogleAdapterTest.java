@@ -26,11 +26,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.criteo.publisher.mock.MockedDependenciesRule;
 import com.criteo.publisher.model.AdSize;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
 import com.google.android.gms.ads.mediation.MediationBannerAd;
 import com.google.android.gms.ads.mediation.MediationBannerAdCallback;
@@ -106,6 +108,34 @@ public class CriteoGoogleAdapterTest {
     }
 
     @Test
+    public void requestNativeAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForSuccess() throws Exception {
+        JSONObject serverParams = new JSONObject();
+        serverParams.put("cpId", TEST_CP_ID);
+        serverParams.put("inventoryGroupId", null);
+        serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
+        String serverParameter = serverParams.toString();
+
+        adapterHelper.loadNativeAd(serverParameter, nativeCallback);
+
+        verify(nativeCallback).onSuccess(any(UnifiedNativeAdMapper.class));
+        verify(nativeCallback, never()).onFailure((AdError) any());
+    }
+
+    @Test
+    public void requestNativeAd_GivenServerParameterWithInventoryGroupId_NotifyForSuccess() throws Exception {
+        JSONObject serverParams = new JSONObject();
+        serverParams.put("cpId", TEST_CP_ID);
+        serverParams.put("inventoryGroupId", "myInventoryId");
+        serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
+        String serverParameter = serverParams.toString();
+
+        adapterHelper.loadNativeAd(serverParameter, nativeCallback);
+
+        verify(nativeCallback).onSuccess(any(UnifiedNativeAdMapper.class));
+        verify(nativeCallback, never()).onFailure((AdError) any());
+    }
+
+    @Test
     public void requestBannerAd_GivenEmptyServerParameter_NotifyForInvalidRequest() throws Exception {
         String serverParameter = "";
 
@@ -137,6 +167,34 @@ public class CriteoGoogleAdapterTest {
     }
 
     @Test
+    public void requestBannerAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForSuccess() throws Exception {
+        JSONObject serverParams = new JSONObject();
+        serverParams.put("cpId", TEST_CP_ID);
+        serverParams.put("inventoryGroupId", null);
+        serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
+        String serverParameter = serverParams.toString();
+
+        adapterHelper.loadBannerAd(serverParameter, new AdSize(320, 50), bannerCallback);
+
+        verify(bannerCallback).onSuccess(any(MediationBannerAd.class));
+        verify(bannerCallback, never()).onFailure((AdError) any());
+    }
+
+    @Test
+    public void requestBannerAd_GivenServerParameterWithInventoryGroupId_NotifyForSuccess() throws Exception {
+        JSONObject serverParams = new JSONObject();
+        serverParams.put("cpId", TEST_CP_ID);
+        serverParams.put("inventoryGroupId", "myInventoryId");
+        serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
+        String serverParameter = serverParams.toString();
+
+        adapterHelper.loadBannerAd(serverParameter, new AdSize(320, 50), bannerCallback);
+
+        verify(bannerCallback).onSuccess(any(MediationBannerAd.class));
+        verify(bannerCallback, never()).onFailure((AdError) any());
+    }
+
+    @Test
     public void requestInterstitialAd_GivenEmptyServerParameter_NotifyForInvalidRequest() throws Exception {
         String serverParameter = "";
 
@@ -165,6 +223,34 @@ public class CriteoGoogleAdapterTest {
         adapterHelper.loadInterstitialAd(serverParameter, interstitialCallback);
 
         verify(interstitialCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.readingServerParameterError())));
+    }
+
+    @Test
+    public void requestInterstitialAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForSuccess() throws Exception {
+        JSONObject serverParams = new JSONObject();
+        serverParams.put("cpId", TEST_CP_ID);
+        serverParams.put("inventoryGroupId", null);
+        serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
+        String serverParameter = serverParams.toString();
+
+        adapterHelper.loadInterstitialAd(serverParameter, interstitialCallback);
+
+        verify(interstitialCallback).onSuccess(any(MediationInterstitialAd.class));
+        verify(interstitialCallback, never()).onFailure((AdError) any());
+    }
+
+    @Test
+    public void requestInterstitialAd_GivenServerParameterWithInventoryGroupId_NotifyForSuccess() throws Exception {
+        JSONObject serverParams = new JSONObject();
+        serverParams.put("cpId", TEST_CP_ID);
+        serverParams.put("inventoryGroupId", "myInventoryId");
+        serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
+        String serverParameter = serverParams.toString();
+
+        adapterHelper.loadInterstitialAd(serverParameter, interstitialCallback);
+
+        verify(interstitialCallback).onSuccess(any(MediationInterstitialAd.class));
+        verify(interstitialCallback, never()).onFailure((AdError) any());
     }
 
     @Test
