@@ -169,7 +169,7 @@ class CriteoAdapter : Adapter() {
         try {
             val parameters = JSONObject(serverParameter)
             criteoPublisherId = parameters.getString(CRITEO_PUBLISHER_ID)
-            inventoryGroupId = parameters.getString(INVENTORY_GROUP_ID)
+            inventoryGroupId = parameters.optString(INVENTORY_GROUP_ID) ?: null
             adUnitId = parameters.getString(AD_UNIT_ID)
         } catch (e: JSONException) {
             val error = readingServerParameterError()

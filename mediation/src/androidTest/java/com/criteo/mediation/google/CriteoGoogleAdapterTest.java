@@ -108,21 +108,20 @@ public class CriteoGoogleAdapterTest {
     }
 
     @Test
-    public void requestNativeAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForSuccess() throws Exception {
+    public void requestNativeAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForError() throws Exception {
         JSONObject serverParams = new JSONObject();
         serverParams.put("cpId", TEST_CP_ID);
-        serverParams.put("inventoryGroupId", null);
+        serverParams.put("inventoryGroupId", JSONObject.NULL);
         serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
         String serverParameter = serverParams.toString();
 
         adapterHelper.loadNativeAd(serverParameter, nativeCallback);
 
-        verify(nativeCallback).onSuccess(any(UnifiedNativeAdMapper.class));
-        verify(nativeCallback, never()).onFailure((AdError) any());
+        verify(nativeCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.noFillError())));
     }
 
     @Test
-    public void requestNativeAd_GivenServerParameterWithInventoryGroupId_NotifyForSuccess() throws Exception {
+    public void requestNativeAd_GivenServerParameterWithInventoryGroupId_NotifyForError() throws Exception {
         JSONObject serverParams = new JSONObject();
         serverParams.put("cpId", TEST_CP_ID);
         serverParams.put("inventoryGroupId", "myInventoryId");
@@ -131,8 +130,7 @@ public class CriteoGoogleAdapterTest {
 
         adapterHelper.loadNativeAd(serverParameter, nativeCallback);
 
-        verify(nativeCallback).onSuccess(any(UnifiedNativeAdMapper.class));
-        verify(nativeCallback, never()).onFailure((AdError) any());
+        verify(nativeCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.noFillError())));
     }
 
     @Test
@@ -167,21 +165,20 @@ public class CriteoGoogleAdapterTest {
     }
 
     @Test
-    public void requestBannerAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForSuccess() throws Exception {
+    public void requestBannerAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForError() throws Exception {
         JSONObject serverParams = new JSONObject();
         serverParams.put("cpId", TEST_CP_ID);
-        serverParams.put("inventoryGroupId", null);
+        serverParams.put("inventoryGroupId", JSONObject.NULL);
         serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
         String serverParameter = serverParams.toString();
 
         adapterHelper.loadBannerAd(serverParameter, new AdSize(320, 50), bannerCallback);
 
-        verify(bannerCallback).onSuccess(any(MediationBannerAd.class));
-        verify(bannerCallback, never()).onFailure((AdError) any());
+        verify(bannerCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.noFillError())));
     }
 
     @Test
-    public void requestBannerAd_GivenServerParameterWithInventoryGroupId_NotifyForSuccess() throws Exception {
+    public void requestBannerAd_GivenServerParameterWithInventoryGroupId_NotifyForError() throws Exception {
         JSONObject serverParams = new JSONObject();
         serverParams.put("cpId", TEST_CP_ID);
         serverParams.put("inventoryGroupId", "myInventoryId");
@@ -190,8 +187,7 @@ public class CriteoGoogleAdapterTest {
 
         adapterHelper.loadBannerAd(serverParameter, new AdSize(320, 50), bannerCallback);
 
-        verify(bannerCallback).onSuccess(any(MediationBannerAd.class));
-        verify(bannerCallback, never()).onFailure((AdError) any());
+        verify(bannerCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.noFillError())));
     }
 
     @Test
@@ -226,21 +222,20 @@ public class CriteoGoogleAdapterTest {
     }
 
     @Test
-    public void requestInterstitialAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForSuccess() throws Exception {
+    public void requestInterstitialAd_GivenServerParameterWithInventoryGroupIdEqualsNull_NotifyForError() throws Exception {
         JSONObject serverParams = new JSONObject();
         serverParams.put("cpId", TEST_CP_ID);
-        serverParams.put("inventoryGroupId", null);
+        serverParams.put("inventoryGroupId", JSONObject.NULL);
         serverParams.put("adUnitId", BANNER_320_50.getAdUnitId());
         String serverParameter = serverParams.toString();
 
         adapterHelper.loadInterstitialAd(serverParameter, interstitialCallback);
 
-        verify(interstitialCallback).onSuccess(any(MediationInterstitialAd.class));
-        verify(interstitialCallback, never()).onFailure((AdError) any());
+        verify(interstitialCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.noFillError())));
     }
 
     @Test
-    public void requestInterstitialAd_GivenServerParameterWithInventoryGroupId_NotifyForSuccess() throws Exception {
+    public void requestInterstitialAd_GivenServerParameterWithInventoryGroupId_NotifyForError() throws Exception {
         JSONObject serverParams = new JSONObject();
         serverParams.put("cpId", TEST_CP_ID);
         serverParams.put("inventoryGroupId", "myInventoryId");
@@ -249,8 +244,7 @@ public class CriteoGoogleAdapterTest {
 
         adapterHelper.loadInterstitialAd(serverParameter, interstitialCallback);
 
-        verify(interstitialCallback).onSuccess(any(MediationInterstitialAd.class));
-        verify(interstitialCallback, never()).onFailure((AdError) any());
+        verify(interstitialCallback).onFailure(argThat(new IsEqualToOtherAdError(AdErrorKt.noFillError())));
     }
 
     @Test
