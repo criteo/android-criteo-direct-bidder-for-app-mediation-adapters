@@ -5,6 +5,9 @@ Note that all version `X.Y.Z.T` of this adapter have been tested against the mat
 
 ## Next
 
+## Version 7.0.0.0
+* Add inventoryGroupId parameter
+
 ## Version 6.0.0.0
 * Add support of Android 14 (API level 34)
 

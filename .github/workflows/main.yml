@@ -36,7 +36,7 @@ jobs:
           path: "**/build/reports/tests"
 
   android-tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -62,6 +62,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - name: Setup Java 11
         uses: actions/setup-java@v3
         with:
@@ -75,7 +81,7 @@ jobs:
           target: ${{ matrix.tag }}
           arch: ${{ matrix.abi }}
           force-avd-creation: false
-          emulator-options: -no-snapshot-save -noaudio -no-boot-anim -skin 360x640
+          emulator-options: -no-window -no-snapshot-save -noaudio -no-boot-anim -skin 360x640
           disable-animations: true
           script: |
             adb logcat -c # clear logs

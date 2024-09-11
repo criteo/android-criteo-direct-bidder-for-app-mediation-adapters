@@ -40,8 +40,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
-        mavenLocal()
         maven {
             setUrl("https://oss.sonatype.org/content/repositories/snapshots/")
         }
@@ -60,7 +58,7 @@ ext {
      * deployed as well with version A.B.C.0. If fixes, or updates are required on the adapter without updating
      * the SDK, then the last digit is incremented to produce A.B.C.1, then A.B.C.2, ...
      */
-    adapter_version = "6.0.0.0"
+    adapter_version = "7.0.0.0"
     isSnapshot = properties["isRelease"] != "true"
 
     def timestamp = new Date().format("yyyyMMdd.HHmm")

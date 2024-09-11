@@ -164,10 +164,12 @@ class CriteoAdapter : Adapter() {
         }
 
         val criteoPublisherId: String
+        val inventoryGroupId: String?
         val adUnitId: String
         try {
             val parameters = JSONObject(serverParameter)
             criteoPublisherId = parameters.getString(CRITEO_PUBLISHER_ID)
+            inventoryGroupId = parameters.optString(INVENTORY_GROUP_ID) ?: null
             adUnitId = parameters.getString(AD_UNIT_ID)
         } catch (e: JSONException) {
             val error = readingServerParameterError()
@@ -192,6 +194,7 @@ class CriteoAdapter : Adapter() {
                 )
                     // TODO: move AdUnit creation to separate loaders when prefetch feature is removed
                     .adUnits(listOf(adUnit))
+                    .inventoryGroupId(inventoryGroupId)
                     .tagForChildDirectedTreatment(tagForChildDirectedTreatment)
                     .init()
             } catch (e: CriteoInitException) {
@@ -244,6 +247,7 @@ class CriteoAdapter : Adapter() {
         internal val DEFAULT_VERSION_INFO = VersionInfo(0, 0, 0)
 
         private const val CRITEO_PUBLISHER_ID = "cpId"
+        private const val INVENTORY_GROUP_ID = "inventoryGroupId"
         private const val AD_UNIT_ID = "adUnitId"
     }
 

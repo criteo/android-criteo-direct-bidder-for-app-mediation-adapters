@@ -18,6 +18,7 @@ package com.criteo.mediation.google;
 
 import static com.criteo.mediation.google.CriteoAdapter.SERVER_PARAMETER_KEY;
 import static com.criteo.publisher.CriteoUtil.TEST_CP_ID;
+import static com.criteo.publisher.CriteoUtil.TEST_INVENTORY_GROUP_ID;
 import static com.criteo.publisher.concurrent.ThreadingUtil.runOnMainThreadAndWait;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -138,6 +139,7 @@ public class AdapterHelper {
     try {
       JSONObject serverParams = new JSONObject();
       serverParams.put("cpId", TEST_CP_ID);
+      serverParams.put("inventoryGroupId", TEST_INVENTORY_GROUP_ID);
       serverParams.put("adUnitId", adUnit.getAdUnitId());
       return serverParams.toString();
     } catch (JSONException e) {
