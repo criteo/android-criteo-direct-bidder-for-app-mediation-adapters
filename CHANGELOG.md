@@ -5,6 +5,9 @@ Note that all version `X.Y.Z.T` of this adapter have been tested against the mat
 
 ## Next
 
+## Version 7.1.0.0
+* Bump AdMob to v23.3.0
+
 ## Version 7.0.0.0
 * Add inventoryGroupId parameter
 
